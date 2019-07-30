@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from access_postgre import insert_table
-
+from datetime import datetime
 
 
 def get_response(url):
@@ -29,8 +29,15 @@ def main_select():
     url = 'https://select.by/kurs/'
     
     total_gen = get_total_info(get_response(url))
-    
-    insert_table(total_gen)
+    b = datetime.today().strftime("%d.%m.%Y")
+    a = datetime.today().strftime("%H:%M:%S")
+    c = "{} {}".format(b, a)
+    info_postgre = []
+    for i in total_gen:
+        info_postgre.append(i)
+    info_postgre.append(c)
+    print(info_postgre)
+    insert_table(info_postgre)
     
 
 
