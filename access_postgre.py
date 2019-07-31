@@ -1,14 +1,9 @@
 import psycopg2 
+from data_bd import access
 def insert_table(info):
     """insert total_kurs in table"""
 
-    con = psycopg2.connect(
-    database = 'postgres',
-    user = 'postgres',
-    password = '20021992',
-    host = '127.0.0.1',
-    port = '5432'
-    )
+    con = access
     
     print ('database opened successufully')
 
@@ -25,3 +20,13 @@ def insert_table(info):
     print('record inserted successfully')
     
     con.close()
+
+def select_info(info_date):
+    con = access
+    print('opened bd successfully')
+    cur = con.cursor()
+    cur.execute("select * from all_currency where date_time >= %s:: date;", (info_date,))
+    rec = cur.fetchall()
+    print('select from bd successfully ')
+    con.close()
+    return rec

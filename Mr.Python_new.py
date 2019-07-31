@@ -2,6 +2,7 @@ import requests
 from main import main_select
 from misc import token
 from time import sleep
+from access_postgre import  select_info
 
 
 #https://api.telegram.org/bot879499363:AAH80agvPpGX-Mzzdn_aAhZ4-Ni0MN5FYwU/sendmessage?chat_id=506242371&text=%20%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82
@@ -58,6 +59,23 @@ def main():
                 send_message(chat_id, "Вот курс валют  данный момент:")
                 send_message(chat_id, 'usd_client, usd_bank, euro_client, euro_bank, rub_client, rub_bank')
                 send_message(chat_id, main_select())
+            elif text == "/date@MrKaa_bot":
+                send_message(chat_id, "Введите дату в формате '2019-07-31' ,\
+    чтобы посмотреть курс валют за этот день")
+            elif answer != None:
+                chat_id = answer["chat_id"]
+                text = answer['text']
+                response_bd = select_info(text)
+                #send_message(chat_id, response_bd )
+                for i in ("usd_client", 'usd_bank', 'euro_client', 'euro_bank', 'rub_client', 'rub_bank', 'date_time'):
+                    print("{:20}".format(i), end="")
+                print()
+                for a in response_bd:
+                    for i in a:
+                        print("{} ".format(i), end="   ")
+                    print()
+        
+                    
         else:
             continue
         sleep(5)
